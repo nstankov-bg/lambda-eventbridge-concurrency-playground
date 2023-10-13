@@ -1,35 +1,22 @@
+# Imports
 import json
 import logging
 import os
 import time
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Union
 
-import requests
-
-# Constants
+# Constants and Configurations
 HTTP_OK = 200
-AWS_SESSION_TOKEN = os.getenv("AWS_SESSION_TOKEN", None)
-SECRET_ENDPOINT = os.getenv(
-    "SECRET_ENDPOINT", "http://localhost:2773/secretsmanager/get?secretId={}"
-)
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
-# Initialize logging
+# Initialize Logging
 logging.basicConfig(level=LOG_LEVEL)
 logger = logging.getLogger(__name__)
 
 
-def fetch_secret_from_extension(secret_name: str) -> Optional[str]:
-    """Fetch a secret from AWS Secrets Manager Lambda extension."""
-    headers = {"X-Aws-Parameters-Secrets-Token": AWS_SESSION_TOKEN}
-    secret_endpoint = SECRET_ENDPOINT.format(secret_name)
-    try:
-        response = requests.get(secret_endpoint, headers=headers)
-        response.raise_for_status()
-        return json.loads(response.text)["SecretString"]
-    except requests.RequestException as e:
-        logger.error(f"Error retrieving secret {secret_name}: {e}")
-        return None
+def fetch_result() -> str:
+    """Simulated function that fetches the result."""
+    return "Fast execution"
 
 
 def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Union[int, str]]:
@@ -37,7 +24,8 @@ def lambda_handler(event: Dict[str, Any], context: Any) -> Dict[str, Union[int, 
     start_time = time.time()
     logger.info(f"Received event: {json.dumps(event)}")
 
-    result = "Fast execution"
+    # Fetch the result
+    result = fetch_result()
 
     end_time = time.time()
     execution_time = end_time - start_time
