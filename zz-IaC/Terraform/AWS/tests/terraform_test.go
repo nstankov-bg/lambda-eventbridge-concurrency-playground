@@ -7,36 +7,45 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// Test the Terraform configuration
 func TestTerraform(t *testing.T) {
-	t.Parallel()
+	awsRegions := []string{"us-east-1", "us-east-2"}
 
-	awsRegion := "us-east-1" // Update this to your AWS region
+	for _, region := range awsRegions {
+		t.Run(region, func(t *testing.T) {
+			t.Parallel()
 
-	terraformOptions := &terraform.Options{
-		// The path to where your Terraform code is located
-		TerraformDir: "../", // Update this path
-		VarFiles:     []string{"terraform.tfvars"},
-		Vars: map[string]interface{}{
-			"region": awsRegion,
-		},
+			terraformOptions := &terraform.Options{
+				TerraformDir: "../",
+				VarFiles:     []string{"terraform.tfvars"},
+				Vars: map[string]interface{}{
+					"region": region,
+				},
+			}
+
+			defer terraform.Destroy(t, terraformOptions)
+			terraform.InitAndApply(t, terraformOptions)
+			validateLambda(t, terraformOptions)
+			validateEventBridge(t, terraformOptions)
+		})
 	}
-
-	defer terraform.Destroy(t, terraformOptions)
-
-	// Deploy the Terraform configuration
-	terraform.InitAndApply(t, terraformOptions)
-
-	// Validate the Lambda function
-	validateLambda(t, terraformOptions, awsRegion)
 }
 
-func validateLambda(t *testing.T, terraformOptions *terraform.Options, awsRegion string) {
-	// Look up the Lambda function by name
+func validateLambda(t *testing.T, terraformOptions *terraform.Options) {
 	functionName := terraform.Output(t, terraformOptions, "lambda_function_name")
 	assert.NotNil(t, functionName)
+	assert.NotEmpty(t, functionName)
 
-	// Check the Lambda function's settings
 	reservedConcurrentExecutions := terraform.Output(t, terraformOptions, "lambda_reserved_concurrent_executions")
 	assert.NotNil(t, reservedConcurrentExecutions)
+	assert.NotEmpty(t, reservedConcurrentExecutions)
+}
+
+func validateEventBridge(t *testing.T, terraformOptions *terraform.Options) {
+	eventBridgeName := terraform.Output(t, terraformOptions, "event_bridge_name")
+	assert.NotNil(t, eventBridgeName)
+	assert.NotEmpty(t, eventBridgeName)
+
+	eventBridgeRuleName := terraform.Output(t, terraformOptions, "event_bridge_rule_name")
+	assert.NotNil(t, eventBridgeRuleName)
+	assert.NotEmpty(t, eventBridgeRuleName)
 }
