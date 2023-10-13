@@ -1,0 +1,78 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual Environment
+myenv/
+venv/
+*.venv
+venv.bak/
+ENV/
+*-env
+
+# IDEs and editors
+/.idea
+.idea/
+*.swp
+*.swo
+*.swn
+*.bak
+*.sublime-workspace
+*.sublime-project
+.vscode/
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# AWS SAM
+.sam/
+
+# AWS CDK
+cdk.out/
+cdk.context.json
+
+# AWS Amplify
+amplify/
+aws-exports.js
+
+# Test-related
+.coverage
+.tox/
+.pytest_cache/
+pytestdebug.log
+
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# DotEnv
+.env
+
+# Terraform
+.terraform/
+.tfstate
+*.tfstate
+.terraform.lock.hcl
+*.tfvars
+terraform.tfvars
+tfplan
+*.out
+infracost-base.json
+*.tfstate.backup
+tfstate.backup
+*.zip

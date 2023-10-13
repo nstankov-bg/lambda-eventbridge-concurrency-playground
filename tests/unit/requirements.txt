@@ -1,0 +1,6 @@
+unittest2
+python-decouple
+requests
+opentelemetry-exporter-otlp-proto-grpc
+opentelemetry-sdk
+mock

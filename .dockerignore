@@ -1,0 +1,37 @@
+# Ignore Terraform state and logs
+zz-IaC/Terraform/AWS/*.tfstate
+zz-IaC/Terraform/AWS/*.tfstate.backup
+zz-IaC/Terraform/AWS/*.log
+zz-IaC/Terraform/AWS/plan.log
+zz-IaC/Terraform/AWS/debug.log
+
+# Ignore Infracost files
+*.json
+
+# Ignore Python compiled files and virtual environments
+*.pyc
+*.pyo
+*.pyd
+.Python
+__pycache__/
+*.git
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore shell scripts except test-entrypoint.sh
+scripts/*.sh
+!scripts/docker/test-entrypoint.sh
+
+# Ignore Makefile
+Makefile
+
+# Ignore Dockerfile
+Dockerfile
+
+# Ignore initialization files
+__init__.py
+
+# Ignore the local environment setup files if any
+.env
