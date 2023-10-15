@@ -4,12 +4,15 @@ import json
 # Initialize EventBridge client
 client = boto3.client("events")
 
+# Custom EventBus Name
+custom_event_bus_name = "default"
+
 # Loop to put events in batches of 10
 for i in range(50):
     batch = []
     for j in range(10):
         event = {
-            "EventBusName": "default",
+            "EventBusName": custom_event_bus_name,
             "Source": "my.custom.source",
             "DetailType": "ManualTrigger",
             "Detail": json.dumps({"job": "manual-trigger", "batch": i, "event": j}),
